@@ -88,13 +88,13 @@ const Navbar = () => {
                             (item, index) => (
                                 <li key={index}>
                                     <Link
-                                        to={item.path}
+                                        to={item.name}
                                         className={`block font-medium transition-colors ${isScrolled
                                             ? "text-gray-700 hover:text-blue-600"
                                             : "text-white/90 hover:text-blue-400"
                                             }`}
                                     >
-                                        {item.name}
+                                        {item.path}
                                     </Link>
                                 </li>
                             )
