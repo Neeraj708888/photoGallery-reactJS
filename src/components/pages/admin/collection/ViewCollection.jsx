@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle, XCircle } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleCollection } from "../../../../features/thunks/collectionThunk";
 
 const ViewCollection = () => {
+
+  const { collectionId } = useParams();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const dispatch = useDispatch();
+  const {
+    singleCollection,
+    loading,
+  } = useSelector(state => state.collections);
 
-  // 🌸 Sample data (replace later with API data)
-  const collectionData = {
-    id,
-    name: "Royal Wedding Collection",
-    status: "Active",
-    description:
-      "A timeless collection capturing royal elegance, emotional moments, and the beauty of love through every frame. Perfect for couples who want their story told in golden tones 💍✨",
-    image:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80",
-    createdAt: "2025-10-25",
-    updatedAt: "2025-11-05",
-  };
+  // Find Single Collection
+  useEffect(() => {
+    if (collectionId) dispatch(getSingleCollection(collectionId));
+  }, [collectionId, dispatch]);
 
+  // Loading
+  if (loading) return (
+    <p className="text-center mt-10">Loading...</p>
+  )
+
+  if (!singleCollection && !loading) return (
+    <p className="text-center mt-10 text-red-500">Collection not found</p>
+  )
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-white flex items-center justify-center py-10 px-4">
       <motion.div
@@ -51,8 +59,8 @@ const ViewCollection = () => {
             transition={{ duration: 0.5 }}
           >
             <img
-              src={collectionData.image}
-              alt={collectionData.name}
+              src={singleCollection?.thumbnail?.url}
+              alt={singleCollection.collectionName}
               className="w-full h-80 object-cover"
             />
           </motion.div>
@@ -62,19 +70,19 @@ const ViewCollection = () => {
             <div>
               <h3 className="text-sm uppercase text-gray-500">Collection Name</h3>
               <p className="text-xl font-semibold text-gray-800">
-                {collectionData.name}
+                {singleCollection.collectionName}
               </p>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="text-sm uppercase text-gray-500">Description</h3>
               <p className="text-pink-700 italic">{collectionData.description}</p>
-            </div>
+            </div> */}
 
             <div>
               <h3 className="text-sm uppercase text-gray-500">Status</h3>
               <p className="flex items-center gap-2 font-semibold">
-                {collectionData.status.toLowerCase() === "active" ? (
+                {singleCollection.status === "active" ? (
                   <span className="text-green-600 flex items-center gap-1">
                     <CheckCircle size={18} /> Active
                   </span>
@@ -90,13 +98,13 @@ const ViewCollection = () => {
               <div>
                 <h3 className="text-sm uppercase text-gray-500">Created At</h3>
                 <p className="font-semibold text-gray-700">
-                  {collectionData.createdAt}
+                  {new Date(singleCollection.createdAt).toLocaleString()}
                 </p>
               </div>
               <div>
                 <h3 className="text-sm uppercase text-gray-500">Updated At</h3>
                 <p className="font-semibold text-gray-700">
-                  {collectionData.updatedAt}
+                  {new Date(singleCollection.updatedAt).toLocaleString()}
                 </p>
               </div>
             </div>

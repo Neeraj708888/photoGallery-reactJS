@@ -7,7 +7,6 @@ import GalleryList from "../pages/admin/gallery/GalleryList";
 import CreateGallery from "../pages/admin/gallery/CreateGallery";
 import EditGallery from "../pages/admin/gallery/EditGallery";
 import CollectionList from "../pages/admin/collection/CollectionList";
-import CreateCollection from "../pages/admin/collection/CreateCollection";
 import EditCollection from "../pages/admin/collection/EditCollection";
 import Profile from "../pages/profile/Profile";
 import PhotosList from "../pages/admin/photos/PhotosList";
@@ -32,9 +31,8 @@ export const adminRoute = [
   { path: "gallery/edit", element: <EditGallery /> },
   { path: "gallery/view", element: <ViewGallery /> },
   { path: "collection", element: <CollectionList /> },
-  { path: "collection/create", element: <CreateCollection /> },
   { path: "collection/edit", element: <EditCollection /> },
-  { path: "collection/view", element: <ViewCollection /> },
+  { path: "collection/view/:collectionId", element: <ViewCollection /> },
   { path: "photos", element: <PhotosList /> },
   { path: "photos/create", element: <CreatePhotos /> },
   { path: "photos/edit", element: <EditPhotos /> },

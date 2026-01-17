@@ -60,7 +60,7 @@ const CreateCollectionModal = ({ onClose, onSave }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          
+
           {/* Name Input */}
           <div>
             <label
@@ -72,6 +72,7 @@ const CreateCollectionModal = ({ onClose, onSave }) => {
             <input
               id="name"
               type="text"
+              name="collectionName"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter collection name"
@@ -91,6 +92,7 @@ const CreateCollectionModal = ({ onClose, onSave }) => {
             <input
               id="image"
               type="file"
+              name="thumbnail"
               accept="image/*"
               onChange={handleImageChange}
               className="w-full border border-pink-300 rounded-lg px-3 py-2 bg-white cursor-pointer"

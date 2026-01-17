@@ -14,7 +14,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmModal from "../pages/modals/ConfirmModal";
 import { useDispatch } from "react-redux";
-import { logoutAdmin } from "../../features/admin/adminSlice";
+import { logoutAdmin } from "../../features/adminSlices/adminSlice";
 import FullPageLoader from "../utils/FullPageLoader";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {

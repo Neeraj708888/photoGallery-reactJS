@@ -1,12 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const EditCollectionModal = ({ onClose, onSave, collection }) => {
-  const [name, setName] = useState(collection?.name || "");
+  const [collectionName, setCollectionName] = useState(collection?.name || "");
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(collection?.image || null);
+  const [status, setStatus] = useState(true);
 
   const modalRef = useRef(null);
+
+  // Prefill Data
+  useEffect(() => {
+    if (collection) {
+      setCollectionName(collection?.collectionName || "");
+      setStatus(collection?.status);
+      setPreview(collection?.thumbnail?.url || null);
+    }
+  }, [collection]);
 
   // 🔹 Close modal when clicking outside
   useEffect(() => {
@@ -30,12 +40,15 @@ const EditCollectionModal = ({ onClose, onSave, collection }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name.trim()) return alert("Please enter a collection name");
+    if (!collectionName.trim()) return alert("Please enter a collection name");
 
+    const formData = new FormData();
+    formData.append("collectionName", collectionName);
+    formData.append("status", status);
+    if (image) formData.append("thumbnail", image);
     onSave({
-      ...collection,
-      name,
-      image: image || collection?.image,
+      id: collection._id,
+      formData,
     });
   };
 
@@ -60,7 +73,7 @@ const EditCollectionModal = ({ onClose, onSave, collection }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          
+
           {/* Name Field */}
           <div>
             <label
@@ -72,8 +85,8 @@ const EditCollectionModal = ({ onClose, onSave, collection }) => {
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={collectionName}
+              onChange={(e) => setCollectionName(e.target.value)}
               placeholder="Enter collection name"
               className="w-full border border-pink-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-pink-400"
             />

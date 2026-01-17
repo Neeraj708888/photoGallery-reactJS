@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../../features/admin/adminAPI";
+import { API_URL } from "./apiAdminEndpoints";
 import { getToken } from "../utils/AuthToken";
 
 const axiosInstance = axios.create({
