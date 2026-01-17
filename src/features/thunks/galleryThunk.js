@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
-// Create Collection Thunk-Api 
+// Create Gallery Thunk-Api 
 export const createGallery = createAsyncThunk("gallery/create", async (payload, { rejectWithValue }) => {
     try {
-        const response = await axiosInstance.post("gallery/create", payload);
+        const response = await axiosInstance.post("/gallery/create", payload);
 
         return response.data;
 
@@ -15,7 +15,7 @@ export const createGallery = createAsyncThunk("gallery/create", async (payload, 
     }
 });
 
-// Update Collection Thunk-Api
+// Update Gallery Thunk-Api
 export const updateGallery = createAsyncThunk("gallery/update", async ({ id, payload }, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.put(`/gallery/update/${id}`, payload);
@@ -26,7 +26,7 @@ export const updateGallery = createAsyncThunk("gallery/update", async ({ id, pay
     }
 });
 
-// Delete Collection Think-Api
+// Delete Gallery Think-Api
 export const deleteGallery = createAsyncThunk("gallery/delete", async (id, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.delete(`/gallery/delete${id}`);
@@ -38,8 +38,8 @@ export const deleteGallery = createAsyncThunk("gallery/delete", async (id, { rej
     }
 });
 
-// Get All Collection Thunk-Api 
-export const gallery = createAsyncThunk("collections", async (_, { rejectWithValue }) => {
+// Get All Gallery Thunk-Api 
+export const gallery = createAsyncThunk("gallery", async (_, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.get("/gallery");
         return response.data;
@@ -49,7 +49,7 @@ export const gallery = createAsyncThunk("collections", async (_, { rejectWithVal
     }
 });
 
-// Get Single Collection Thunk-Api
+// Get Single Gallery Thunk-Api
 export const getSingleGallery = createAsyncThunk("single/gallery", async (id, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.get(`/gallery/${id}`);

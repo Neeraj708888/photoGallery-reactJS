@@ -1,36 +1,48 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllcollections } from "../../../features/thunks/collectionThunk";
 
-const images = [
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1517816428104-797678c7cf0d?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
-];
+// const images = [
+//     "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+//     "https://images.unsplash.com/photo-1517816428104-797678c7cf0d?auto=format&fit=crop&w=1600&q=80",
+//     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
+//     "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+//     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+//     "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
+// ];
 
 const Hero = () => {
     const [current, setCurrent] = useState(0);
+    const { collections, loading } = useSelector(state => state.collections);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllcollections());
+    }, []);
 
     // Auto-slide every 4 seconds
     useEffect(() => {
+
+
+        if (!collections || collections.length === 0) return;
+
         const interval = setInterval(() => {
-            setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+            setCurrent((prev) => (prev === collections.length - 1 ? 0 : prev + 1));
         }, 4000);
         return () => clearInterval(interval);
-    }, []);
+    }, [collections.length]);
 
     return (
         <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
             {/* Background Images */}
-            <div className="absolute inset-0">
-                {images.map((img, index) => (
+            <div className="absolute inset-0 overflow-x-hidden w-screen h-screen">
+                {collections.map((img, index) => (
                     <img
                         key={index}
-                        src={img}
+                        src={img?.thumbnail?.url}
                         // alt={`slide-${index}`}
                         alt='banner'
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === current ? "opacity-100" : "opacity-0"
+                        className={`absolute inset-0 transition-opacity w-screen h-screen duration-1000 ${index === current ? "opacity-100" : "opacity-0"
                             }`}
                     />
                 ))}
@@ -68,7 +80,7 @@ const Hero = () => {
 
             {/* Dots Navigation */}
             <div className="absolute bottom-6 flex space-x-3 z-10">
-                {images.map((_, index) => (
+                {collections.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => setCurrent(index)}
